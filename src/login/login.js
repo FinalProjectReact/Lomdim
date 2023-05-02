@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import teachersw, { users} from "../listTeachers";
-import login from '../login';
 
 import './login.css';
 import image1 from '../Assets/1.jpg';
