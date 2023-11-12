@@ -5,17 +5,21 @@ import CreateLesson from "./createLesson";
 import { Tabs, Tab } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 function mapStateToProps(state) {
   return {
     // currentUser: state.user.currentUser,
     categories: state.category.category,
+    currentUser: state.user.currentUser,
+
   };
 }
 
 function AccountPupil(props) {
   // const [page, setPage] = useState();
-  const { categories } = props;
+  const { categories, currentUser } = props;
   const navigation = useNavigate();
 
   //get current user
@@ -25,6 +29,28 @@ function AccountPupil(props) {
     localStorage.removeItem("loggedin")
     navigation("/");
   }
+
+  const deleteFromAccount=async()=>{
+    axios.delete(`http://localhost:3030/user/deleteUserById/`, { id:user.id})
+      .then(response => {
+        console.log('הבקשה DELETE הושלמה בהצלחה');
+        console.log('תשובה מהשרת:', response.data);
+      })
+      .catch(error => {
+        console.error('שגיאה בבצע בקשת DELETE:', error);
+      });
+  }
+    // debugger;
+    // try {
+    //   console.log(currentUser)
+    //   let res = await axios.delete(`http://localhost:3030/user/deleteUserById/${user.id}`);
+    //   console.log(res.data);
+    //   // dispatch(setAllUsers(res.data.getAllUsers));
+    //   // Set the filterTeacher state here
+    //   //setFilterTeacher(res.data.getAllTeachers);
+    // } catch (error) {
+    //   console.log(error);
+    // }  }
 
   // function createLesson(){
   //     setIsChecked(true);
@@ -65,8 +91,10 @@ function AccountPupil(props) {
           <Tab eventKey="two" title="היסטוריית שיעורים">
             <p>Tab 2</p>
           </Tab>
-          <Tab eventKey="three" title="מחיקת חשבון">
-            <p>Tab 3</p>
+          <Tab eventKey="three" title="מחיקת חשבון" >
+            {/* <p>Tab 3</p> */}
+            <p>האם אתה בטוח שברצונך לבטל את חשבונך באתר?</p>
+            <input type="button" onClick={deleteFromAccount} value="מחק את חשבוני"></input>
           </Tab>
         </Tabs>
       </div>

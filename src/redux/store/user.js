@@ -11,7 +11,7 @@ const initialState = {
     aboutMe: "fsdfs",
     lessonPlace: "home",
   },
-  currentUser: {},
+  // currentUser: {},
   allUsers: [],
 };
 

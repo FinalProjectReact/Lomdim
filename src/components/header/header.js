@@ -30,16 +30,23 @@ const Header = () => {
           </NavLink>
         </NavMenu>
         <NavBtn>
+    
           <NavBtnLink
-          to={"/login"}
+
+          //to={"/login"}
             // to={localStorage.getItem("loggedin") === null ? "/login" : "/register"}
+
+            to={localStorage.getItem("loggedin")&&"/login" }
           >
             התחברות
           </NavBtnLink>
           <NavBtnLink
-          to={"/register"}
+
+          //to={"/register"}
 
             // to={localStorage.getItem("loggedin") === null ? "/register" : "/register"}
+
+            to={localStorage.getItem("loggedin")&&"/register"}
           >
             משתמש חדש
           </NavBtnLink>

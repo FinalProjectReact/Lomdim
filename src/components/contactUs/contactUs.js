@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import './contactUs.css'
+import './ContactUs.css'
 
 export default function ContactUs() {
 const [email, setEmail] = useState();
