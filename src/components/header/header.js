@@ -31,12 +31,15 @@ const Header = () => {
         </NavMenu>
         <NavBtn>
           <NavBtnLink
-            to={localStorage.getItem("loggedin") === null ? "/login" : ""}
+          to={"/login"}
+            // to={localStorage.getItem("loggedin") === null ? "/login" : "/register"}
           >
             התחברות
           </NavBtnLink>
           <NavBtnLink
-            to={localStorage.getItem("loggedin") === null ? "/register" : ""}
+          to={"/register"}
+
+            // to={localStorage.getItem("loggedin") === null ? "/register" : "/register"}
           >
             משתמש חדש
           </NavBtnLink>
