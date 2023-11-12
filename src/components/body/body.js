@@ -10,7 +10,7 @@ import HowToLearnEnglish from "../blog/items-blogs/howToLearnEnglish";
 import AccountPupil from "../accountPupil/accountPupil";
 import AccountTeacher from "../accountTeacher/accountTeacher";
 import PageTeacher from "../pageTeacher/pageTeacher";
-//import ContactUs from "../contactUs/contactUs";
+import ContactUs from "../ContactUs/ContactUs";
 import UpdateTeacher from "../pageTeacher/updateTeacher";
 
 export default function Body() {
@@ -20,7 +20,7 @@ export default function Body() {
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/howToLearnEnglish" element={<HowToLearnEnglish />} />
-        {/* <Route path="/contact_us" element={<ContactUs />} /> */}
+        <Route path="/contact_us" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/personal_details" element={<PersonalDetails />} />
