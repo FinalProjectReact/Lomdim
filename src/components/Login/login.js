@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../contex/authProvider";
 import "./login.css";
 import axios from "axios";
-import { addUser } from "../../redux/action";
+import { addUser } from "../../redux/actions/action";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -20,17 +20,17 @@ function Login(props) {
   //   setErrMsg("");
   // }, [user, password]);
 
-
   function insertToAccount() {
     axios
-      .post(`http://localhost:3030/user/findUserByName`,{
+      .post(`http://localhost:3030/user/findUserByName`, {
         mail: mail,
-        password: password
+        password: password,
       })
       .then((res) => {
-        console.log(res.data);
-        dispatch(addUser(res.data.findUserByName));
-        
+        const currentUser = res.data;
+        console.log(currentUser);
+        dispatch(addUser(currentUser));
+
         if (res.data.status === "תלמיד") {
           navigation("/account_pupil");
         } else {
@@ -46,8 +46,8 @@ function Login(props) {
   return (
     <>
       <div className="login-wapper">
-         <section>
-         {/* <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
+        <section>
+          {/* <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
             {" "}
             {errMsg}
           </p> */}

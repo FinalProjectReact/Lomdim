@@ -1,6 +1,7 @@
 import React from "react";
 import "./pageTeacher.css";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function mapStateToProps(state) {
   return {
@@ -10,13 +11,17 @@ function mapStateToProps(state) {
 }
 
 function PageTeacher(props) {
-  const { teacherDetails, currentUser } = props;
+ 
+  const nav = useNavigate();
+const currentUser = useSelector(state => state);
+console.log(("currentUser", currentUser));
+  
   return (
     <>
       <div className="page-teacher">
         <div className="title-teacher">
           <div className="name-teacher">
-            <h1>{currentUser.userName}</h1>
+            <h1>{currentUser?.userName}</h1>
             <p>
               
               {/* הצלחה מובטחת עם מעל ל-18 שנות נסיון בהכנה לבגרויות, מבחנים והכנת
@@ -26,9 +31,9 @@ function PageTeacher(props) {
           <div className="connect">
             <h4>ליצירת קשר</h4>
             <h3>
-              {currentUser.mail}
+              {currentUser?.mail}
               <br />
-              {currentUser.phone}
+              {currentUser?.phone}
             </h3>
           </div>
         </div>
@@ -37,7 +42,7 @@ function PageTeacher(props) {
           <div className="about-me">
             <h2>אודותי - קצת עליי</h2>
             <p>
-            {teacherDetails.aboutMe}
+            {/* {teacherDetails.aboutMe} */}
               {/* דוגמא - אני מעיין, מורה פרטית כבר למעלה מ-18 שנים ומתמחה בהגשה
               לבגרויות ובהקניית הרגלי למידה. אני מציעה:
               <br />
@@ -49,6 +54,10 @@ function PageTeacher(props) {
               <h2>תחומי לימוד</h2>
               
           </div>
+          <div>הפניות שלי</div>
+          {/* לעבור על המערך פניות בלולאה ב-map */}
+          <ul></ul>
+          <button onClick={()=>nav('/update_teacher')}>עדכן פרטי מורה</button>
         </div>
       </div>
     </>

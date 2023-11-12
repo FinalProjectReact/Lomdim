@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import "../Register/register.css";
 import ProfessionalDetails from "./professionalDetails";
 import {
-  addUser,
   addTeacherDetails,
-  setAllCategories,
-} from "../../redux/action";
+} from "../../redux/actions/action";
+import {addUser} from '../../redux/actions/userAction';
+import {setAllCategories} from '../../redux/actions/categoryAction';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -42,6 +42,7 @@ function Register(props) {
 
   async function newUserAndTeacher() {
     try {
+      console.log(userName, password, phone, mail, gender, typeUser);
       const response = await axios.post(`http://localhost:3030/user/newUser`, {
         userName: userName,
         password: password,
@@ -51,7 +52,8 @@ function Register(props) {
         status: typeUser,
       });
 
-      console.log(response.data);
+
+      console.log(54,response.data);
       return { data: response.data };
     } catch (err) {
       console.error(err);
@@ -64,7 +66,7 @@ function Register(props) {
       const user = await newUserAndTeacher();
 
       if (user.data && user.data.newUser) {
-        dispatch(addUser(user.data.newUser));
+        dispatch(addUser,user.data.newUser);
         navigation("/account_pupil");
       } else {
         console.log("User data not available");
@@ -76,9 +78,10 @@ function Register(props) {
 
   async function insertNewTeacher() {
     try {
-      const user = await newUserAndTeacher();
-  
-      if (user.data && user.data.newUser) {
+      ;
+      //const user = await newUserAndTeacher();
+
+      // if (user.data && user.data.newUser) {
         const response = await axios.post(
           `http://localhost:3030/teacherData/newData`,
           {
@@ -88,21 +91,20 @@ function Register(props) {
             numStr: houseNum,
             lessonPlace: allCheckedPlace,
             aboutMe: detail,
-            userId: user.data.newUser._id,
           }
         );
-  
-        if (response.data && response.data.newData) {
+
+        if (response.data && response.data) {
           console.log(response.data);
-          dispatch(addUser(user.data.newUser));
-          dispatch(addTeacherDetails(response.data.newData));
+          dispatch(addUser(response.data));
+         // dispatch(addUser, response.data.newData);
           navigation("/page_teacher");
         } else {
           console.log("Error: Teacher data not available");
         }
-      } else {
-        console.log("Error: User data not available");
-      }
+      // } else {
+      //   console.log("Error: User data not available");
+      // }
     } catch (err) {
       if (err.response) {
         console.error("Server responded with an error:", err.response.data);
@@ -113,8 +115,7 @@ function Register(props) {
       }
     }
   }
-  
-  
+
   // async function insertNewTeacher() {
   //   try {
   //     const user = await newUserAndTeacher();
@@ -146,8 +147,10 @@ function Register(props) {
       .get(`http://localhost:3030/category/getAllCategories`)
       .then((res) => {
         console.log(res.data);
-        dispatch(setAllCategories(res.data.getAllCategories));
-      })
+        dispatch({
+          type: setAllCategories,
+          payload: res.data.categories,
+        });      })
       .catch((err) => {
         alert("error");
         console.log(err);
@@ -225,22 +228,22 @@ function Register(props) {
           <div className="btn-group">
             <input
               type="radio"
-              class="btn-check"
+              className="btn-check"
               value="זכר"
               checked={gender === "זכר"}
               onChange={(e) => setGender(e.target.value)}
             />
-            <label class="btn btn-secondary" for="option1">
+            <label className="btn btn-secondary" htmlFor="option1">
               זכר
             </label>
             <input
               type="radio"
-              class="btn-check"
+              className="btn-check"
               value="נקבה"
               checked={gender === "נקבה"}
               onChange={(e) => setGender(e.target.value)}
             />
-            <label class="btn btn-secondary" for="option2">
+            <label className="btn btn-secondary" htmlFor="option2">
               נקבה
             </label>
           </div>
@@ -249,7 +252,7 @@ function Register(props) {
           <div className="btn-group">
             <input
               type="radio"
-              class="btn-check"
+              className="btn-check"
               value="מורה"
               checked={typeUser === "מורה"}
               onChange={(e) => {
@@ -258,12 +261,12 @@ function Register(props) {
               }}
               required
             />
-            <label class="btn btn-secondary" for="option1">
+            <label className="btn btn-secondary" htmlFor="option1">
               מורה
             </label>
             <input
               type="radio"
-              class="btn-check"
+              className="btn-check"
               value="תלמיד"
               checked={typeUser === "תלמיד"}
               onChange={(e) => {
@@ -271,14 +274,14 @@ function Register(props) {
                 setShow(false);
               }}
             />
-            <label class="btn btn-secondary" for="option2">
+            <label className="btn btn-secondary" htmlFor="option2">
               תלמיד
             </label>
           </div>
         </div>
 
         {!show ? (
-          <button class="btn-save1" onClick={insertNewUser}>
+          <button className="btn-save1" onClick={insertNewUser}>
             שמור והמשך
           </button>
         ) : (

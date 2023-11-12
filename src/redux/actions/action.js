@@ -1,16 +1,19 @@
-
+export const ADD_USER = 'ADD_USER';
+export const UPDATE_USER = 'UPDATE_USER';
 //USER
 export function addUser(newUser) {
-  return { type: "SET_USER", payLoad: newUser };
+  console.log(newUser.user    );
+  return { type: ADD_USER, payLoad: newUser.user  };
 }
 
-// export function updateUser(update) {
-//   return { type: "UPDATE_USER", payLoad: update };
-// }
+export function updateUser(update) {
+  console.log(update);
+  return { type: UPDATE_USER, payLoad: update };
+}
 
-// export function deleteUser(del) {
-//   return { type: "DELETE_USER", payLoad: del };
-// }
+export function deleteUser(del) {
+  return { type: "DELETE_USER", payLoad: del };
+}
 
 
 //teacherData

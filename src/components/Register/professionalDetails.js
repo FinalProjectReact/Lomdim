@@ -64,14 +64,14 @@ function ProfessionalDetails(props) {
       <div className="personal-info">
         <h3 className="title-register">פרטים מקצועים</h3>
 
-        <label for="year">בחר שנת לידה:</label>
+        <label htmlFor="year">בחר שנת לידה:</label>
         <select
           id="year"
           name="year"
           onChange={(e) => setYearBirth(e.target.value)}
         >
-          {years.map((option) => (
-            <option id={option}>{option}</option>
+          {years.map((option, index) => (
+            <option key={index} id={option}>{option}</option>
           ))}
         </select>
       </div>
@@ -157,11 +157,11 @@ function ProfessionalDetails(props) {
             width="20"
             height="20"
             fill="#2E59A7"
-            class="bi bi-file-plus-fill"
+            className="bi bi-file-plus-fill"
             onClick={addCategory}
           >
             <path
-              class="bi"
+              className="bi"
               d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0z"
             />
           </svg>
@@ -204,7 +204,7 @@ function ProfessionalDetails(props) {
         </div>
       </div>
 
-      <button onClick={addNewTeacher} class="btn-save1">
+      <button onClick={addNewTeacher} className="btn-save1">
         שמור
       </button>
     </div>

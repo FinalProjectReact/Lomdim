@@ -23,11 +23,11 @@ const Header = () => {
         <Bars />
         <img id='logo' alt='logo' src={logoImg}/>
         <NavMenu>
-          <NavLink to='/'  activeStyle>
+          <NavLink to='/'  >
             בית
           </NavLink>
           
-          {/* <NavLink to='/חומרי_לימוד' activeStyle>
+          {/* <NavLink to='/חומרי_לימוד' >
             חומרי לימוד
           </NavLink> */}
           {/* <NavLink>
@@ -43,13 +43,13 @@ const Header = () => {
             </Menu>
           </NavLink> */}
           
-          <NavLink to="/about" activeStyle>
+          <NavLink to="/about" >
             אודות
           </NavLink>
-          <NavLink to="/contact_us" activeStyle>
+          <NavLink to="/contact_us" >
             צור קשר
           </NavLink>
-          <NavLink to='/blog' activeStyle>
+          <NavLink to='/blog' >
             בלוג
           </NavLink>
         </NavMenu>
