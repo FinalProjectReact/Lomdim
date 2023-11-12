@@ -19,7 +19,7 @@ function mapStateToProps(state) {
 }
 
 function CreateLesson(props) {
-  const { categories, dispatch, teachers, user } = props;
+  const { categories, dispatch, teachers } = props;
 
   //משתנים
   const [selected, setSelected] = useState("");
@@ -27,8 +27,8 @@ function CreateLesson(props) {
   const [showList, setShowList] = useState(false);
   const [cities, setCities] = useState([]);
   const [filterTeacher, setFilterTeacher] = useState([]);
+  // const [user,setUser]=useState([])
   const [selectedTeacher, setSelectedTeacher] = useState();
-
   //כאשר עולה הדף יכנס לסטור כל הקטגוריות הנמצאות במסד נתונים
   useEffect(() => {
     axios
@@ -42,7 +42,7 @@ function CreateLesson(props) {
         console.log(err);
       });
     allTeachters();
-    allUsers();
+    // allUsers();
     doApi();
   }, []);
 
@@ -61,18 +61,20 @@ function CreateLesson(props) {
     }
   };
 
-  //ייבוא רשימת מורים מהמסד נתונים
-  const allUsers = async () => {
-    try {
-      let res = await axios.get(`http://localhost:3030/user/getAllUsers`);
-      console.log(res.data);
-      dispatch(setAllUsers(res.data.getAllUsers));
-      // Set the filterTeacher state here
-      //setFilterTeacher(res.data.getAllTeachers);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //ייבוא רשימת כל המשתמשים מהמסד נתונים
+  // const allUsers = async () => {
+  //   try {
+  //     let res = await axios.get(`http://localhost:3030/user/getAllUsers`);
+  //     console.log(res.data);
+  //     dispatch(setAllUsers(res.data.getAllUsers));
+  //     setUser(res.data.getAllUsers)
+  //     // Set the filterTeacher state here
+  //     //setFilterTeacher(res.data.getAllTeachers);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+    
+  // };
 
   //זימון כתובת API לרשימת ערים בישראל
   const doApi = async () => {
@@ -84,8 +86,7 @@ function CreateLesson(props) {
 
   function searchTeachers() {
     const filteredTeachers = teachers.filter((teacher) => {
-        teacher.city === selectedCity &&
-        teacher.categories.includes(selected)
+      return teacher.city === selectedCity && teacher.categories.includes(selected);
     });
     setFilterTeacher(filteredTeachers);
     setShowList(true);
@@ -156,10 +157,10 @@ function CreateLesson(props) {
 
         {showList ? (
           <div>
-            {filterTeacher.map((item) => {
-              const foundUser = user.find((person) => item.userId === person._id);
+            {filterTeacher.map((item) =>  {
+              //מכיל כרגע את כל ערכי אוביקט היוזר- foundUser זה השורה ששונתה
+              const foundUser = item.userId
               return (
-
                 <React.Fragment key={foundUser.userName}>
                 {console.log(item)}
                   <div className="card">
