@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 // import AuthContext from "../contex/authProvider";
 import "./login.css";
 import axios from "axios";
-import { addUser } from "../../redux/action";
+import { addUser } from "../../redux/actions/action";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -40,6 +40,7 @@ function Login(props) {
       }
     } catch(err) {
         alert("א-מייל או סיסמא שגויים!\n נסה שנית");
+
         console.log(err);
       }
   }

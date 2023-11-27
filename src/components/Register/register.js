@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import "../Register/register.css";
 import ProfessionalDetails from "./professionalDetails";
 import {
-  addUser,
   addTeacherDetails,
-  setAllCategories,
-} from "../../redux/action";
+} from "../../redux/actions/action";
+import {addUser} from '../../redux/actions/userAction';
+import {setAllCategories} from '../../redux/actions/categoryAction';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -55,6 +55,7 @@ function Register(props) {
       //משתמש נוכחי נשמר באחסון של הדפדפן
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("loggedin", true);
+
 
       return { data: data };
     } catch (err) {
@@ -140,8 +141,10 @@ function Register(props) {
       .get(`http://localhost:3030/category/getAllCategories`)
       .then((res) => {
         console.log(res.data);
-        dispatch(setAllCategories(res.data.getAllCategories));
-      })
+        dispatch({
+          type: setAllCategories,
+          payload: res.data.categories,
+        });      })
       .catch((err) => {
         alert("error");
         console.log(err);
@@ -221,7 +224,6 @@ function Register(props) {
                               />
                             </div>
                           </div>
-
                           <div className="d-flex flex-row align-items-center mb-4">
                             <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">

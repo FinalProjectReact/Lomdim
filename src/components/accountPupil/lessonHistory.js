@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { setAllLessons } from "../../redux/action";
+import { setAllLessons } from "../../redux/actions/action";
 
 function mapStateToProps(state) {
   return {
@@ -16,18 +16,18 @@ function LessonHistory(props) {
   const filterLesson = () =>
     lessons.filter((index) => index.id_pupil !== currentUser.ObjectId);
 
-    useEffect(() => {
-        axios
-          .get(`http://localhost:3030/lesson/getAllLessons`)
-          .then((res) => {
-            console.log(res.data);
-            dispatch(setAllLessons(res.data.getAllLessons));
-          })
-          .catch((err) => {
-            alert("error");
-            console.log(err);
-          });
-      }, []);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3030/lesson/getAllLessons`)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setAllLessons(res.data.getAllLessons));
+      })
+      .catch((err) => {
+        alert("error");
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
@@ -47,7 +47,7 @@ function LessonHistory(props) {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-trash"
+                className="bi bi-trash"
                 viewBox="0 0 16 16"
               >
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />

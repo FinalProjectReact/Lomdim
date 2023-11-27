@@ -7,8 +7,9 @@ import {
   setAllCategories,
   setAllTeacher,
   setAllUsers,
-} from "../../redux/action";
+} from "../../redux/actions/action";
 import SelectedCity from "./listCities";
+
 
 function mapStateToProps(state) {
   return {
@@ -29,6 +30,7 @@ function CreateLesson(props) {
   const [filterTeacher, setFilterTeacher] = useState([]);
   // const [user,setUser]=useState([])
   const [selectedTeacher, setSelectedTeacher] = useState();
+
   //כאשר עולה הדף יכנס לסטור כל הקטגוריות הנמצאות במסד נתונים
   useEffect(() => {
     axios
@@ -62,6 +64,7 @@ function CreateLesson(props) {
   };
 
   //ייבוא רשימת כל המשתמשים מהמסד נתונים
+
   // const allUsers = async () => {
   //   try {
   //     let res = await axios.get(`http://localhost:3030/user/getAllUsers`);
@@ -75,6 +78,7 @@ function CreateLesson(props) {
   //   }
     
   // };
+  
 
   //זימון כתובת API לרשימת ערים בישראל
   const doApi = async () => {
@@ -146,7 +150,7 @@ function CreateLesson(props) {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-search"
+                className="bi bi-search"
                 viewBox="0 0 16 16"
               >
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />

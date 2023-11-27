@@ -21,7 +21,7 @@ function ModalCategories(props) {
             type="text"
             onChange={(e) => setAddCategories(e.target.value)}
           />
-          <i class="bi bi-trash"></i>
+          <i className="bi bi-trash"></i>
           
         </Modal.Body>
         <Modal.Footer>

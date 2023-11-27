@@ -88,6 +88,7 @@ function ProfessionalDetails(props) {
               ))}
             </select>
           </div>
+
         </div>
         <br />
 

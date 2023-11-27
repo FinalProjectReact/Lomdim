@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
-import "./accountTeacher.css";
+//import "./accountTeacher.css";
 import { connect, useSelector } from "react-redux";
 import { updateTeacherDetails, updateUser } from "../../redux/actions/action";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function mapStateToProps(state) {
   return {
@@ -13,9 +12,8 @@ function mapStateToProps(state) {
   };
 }
 
-function AccountTeacher(props) {
+function ProfilTeacher(props) {
   const { user, teacherDetais, category, dispatch } = props;
-  const nav = useNavigate();
   const userState = useSelector((state) => state.user.user);
   console.log(18, userState);
   const userNameRef = useRef("");
@@ -59,47 +57,47 @@ function AccountTeacher(props) {
       );
     }
   }
-  // async function updateUserfun(e) {
-  //   e.preventDefault();
-  //   dispatch(
-  //     updateUser({
-  //       userName: userNameRef.current?.value,
-  //       password: passwordRef.current?.value,
-  //       phone: phoneRef.current?.value,
-  //       mail: mailRef.current?.value,
-  //       //gender: teacherDetais.gender,
-  //       city: cityRef.current?.value,
-  //       str: streetRef.current?.value,
-  //       numStr: houseNumRef.current?.value,
-  //       status: teacherDetais?.value,
-  //     })
-  //   );
-  //   const { data } = await axios.put(
-  //     `http://localhost:3030/user/updateUser/${userState["_id"]}`,
-  //     {
-  //       userName: userNameRef.current?.value,
-  //       password: passwordRef.current?.value,
-  //       phone: phoneRef.current?.value,
-  //       mail: mailRef.current?.value,
-  //       //gender: teacherDetais.gender,
-  //       city: cityRef.current?.value,
-  //       str: streetRef.current?.value,
-  //       numStr: houseNumRef.current?.value,
-  //       status: teacherDetais?.value,
-  //     }
-  //   );
-  //   console.log(data);
-  // }
+  async function updateUserfun(e) {
+    e.preventDefault();
+    dispatch(
+      updateUser({
+        userName: userNameRef.current?.value,
+        password: passwordRef.current?.value,
+        phone: phoneRef.current?.value,
+        mail: mailRef.current?.value,
+        //gender: teacherDetais.gender,
+        city: cityRef.current?.value,
+        str: streetRef.current?.value,
+        numStr: houseNumRef.current?.value,
+        status: teacherDetais?.value,
+      })
+    );
+    const { data } = await axios.put(
+      `http://localhost:3030/user/updateUser/${userState["_id"]}`,
+      {
+        userName: userNameRef.current?.value,
+        password: passwordRef.current?.value,
+        phone: phoneRef.current?.value,
+        mail: mailRef.current?.value,
+        //gender: teacherDetais.gender,
+        city: cityRef.current?.value,
+        str: streetRef.current?.value,
+        numStr: houseNumRef.current?.value,
+        status: teacherDetais?.value,
+      }
+    );
+    console.log(data);
+  }
 
-  // function updateTeacher() {
-  //   dispatch(
-  //     updateTeacherDetails({
-  //       dateBirth: teacherDetais.dateBirth,
-  //       lessonPlace: allCheckedPlace.value,
-  //       aboutMe: detail.value,
-  //     })
-  //   );
-  // }
+  function updateTeacher() {
+    dispatch(
+      updateTeacherDetails({
+        dateBirth: teacherDetais.dateBirth,
+        lessonPlace: allCheckedPlace.value,
+        aboutMe: detail.value,
+      })
+    );
+  }
 
   return (
     <>
@@ -107,7 +105,7 @@ function AccountTeacher(props) {
         <h3 className="title-profil">עמוד פרופיל מורה</h3>
         <div className="form">
           <form className="profil-details">
-            {/* <div className="input-wapper">
+            <div className="input-wapper">
               <input
                 placeholder="הכנס שם משתמש"
                 ref={userNameRef}
@@ -205,7 +203,7 @@ function AccountTeacher(props) {
                   {item.name}
                 </label>
               </div>
-            ))} 
+            ))} */}
               </div>
 
               <br />
@@ -249,13 +247,10 @@ function AccountTeacher(props) {
                   <label htmlFor="checkbox">בבית המורה</label>
                 </div>
               </div>
-            </div> */}
-          <button onClick={()=>nav('/update_teacher')}>עדכן פרטי מורה</button>
-
-
-            {/* <button className="btn-save1" onClick={updateUserfun}>
+            </div>
+            <button className="btn-save1" onClick={updateUserfun}>
               עדכן פרטים אישיים
-            </button> */}
+            </button>
           </form>
         </div>
       </div>
@@ -263,4 +258,77 @@ function AccountTeacher(props) {
   );
 }
 
-export default connect(mapStateToProps)(AccountTeacher);
+export default connect(mapStateToProps)(ProfilTeacher);
+
+
+
+
+
+
+
+
+
+
+// import React from "react";
+// import "./pageTeacher.css";
+// import { connect } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+
+// function mapStateToProps(state) {
+//   return {
+//     currentUser: state.user.currentUser,
+//     teacherDetails: state.teacher.teacherDetails,
+//   };
+// }
+
+// function UpdateTeacher(props) {
+//   const { teacherDetails, currentUser } = props;
+//   const nav = useNavigate();
+
+  
+//   return (
+//     <>
+//       <div className="page-teacher">
+//         <div className="title-teacher">
+//           <div className="name-teacher">
+//             <h1>{currentUser.userName}</h1>
+//             <p>
+              
+//               {/* הצלחה מובטחת עם מעל ל-18 שנות נסיון בהכנה לבגרויות, מבחנים והכנת
+//               שעורי בית החל מבית הספר היסודי ועד לתיכון */}
+//             </p>
+//           </div>
+//           <div className="connect">
+//             <h4>ליצירת קשר</h4>
+//             <h3>
+//               {currentUser.mail}
+//               <br />
+//               {currentUser.phone}
+//             </h3>
+//           </div>
+//         </div>
+
+//         <div className="txt-wrapper">
+//           <div className="about-me">
+//             <h2>אודותי - קצת עליי</h2>
+//             <p>
+//             {teacherDetails.aboutMe}
+//               {/* דוגמא - אני מעיין, מורה פרטית כבר למעלה מ-18 שנים ומתמחה בהגשה
+//               לבגרויות ובהקניית הרגלי למידה. אני מציעה:
+//               <br />
+//               * בניית תכנית עבודה בהתאם למטרות וליעדים
+//               <br />* יחס אישי וייחודי לכל תלמיד ותלמידה ועוד...... */}
+//             </p>
+//           </div>
+//           <div className="category">
+//               <h2>תחומי לימוד</h2>
+              
+//           </div>
+//           <button onClick={()=>nav('/update_teacher')}></button>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default connect(mapStateToProps)(UpdateTeacher);

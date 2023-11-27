@@ -22,7 +22,7 @@ const Header = () => {
           <NavLink to="/about" activeStyle>
             אודות
           </NavLink>
-          <NavLink to="/contact_us" activeStyle>
+          <NavLink to="/contact_us" >
             צור קשר
           </NavLink>
           <NavLink to="/blog" activeStyle>

@@ -13,6 +13,7 @@ import AccountTeacher from "../accountTeacher/accountTeacher";
 import PageTeacher from "../pageTeacher/pageTeacher";
 import ContactUs from "../ContactUs/ContactUs";
 
+import UpdateTeacher from "../pageTeacher/updateTeacher";
 
 export default function Body() {
   return (
@@ -27,7 +28,9 @@ export default function Body() {
         <Route path="/personal_details" element={<PersonalDetails />} />
         <Route path="/account_pupil" element={<AccountPupil />} />
         <Route path="/account_teacher" element={<AccountTeacher />} />
-        <Route path="/page_teacher" element={<PageTeacher />} />
+        <Route path="/page_teacher" element={<PageTeacher/>} />
+        <Route path="/update_teacher" element={<UpdateTeacher />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/update" element={<UpdateUser />} />
 

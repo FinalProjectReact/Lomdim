@@ -1,5 +1,8 @@
-import { produce } from "immer";
+import { ADD_USER } from '../actions/action';
+import { UPDATE_USER } from '../actions/action';
 
+
+// Initial state
 const initialState = {
   currentUser: {
     userId: "נעמה",
@@ -13,9 +16,11 @@ const initialState = {
   },
   // currentUser: {},
   allUsers: [],
+  user: {},
+  message: null,
 };
 
-const reducer = produce((state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_USER":
       state.currentUser = action.payLoad;
@@ -30,9 +35,22 @@ const reducer = produce((state, action) => {
     // case "DELETE_USER":
     //   state.user.filter( index => index.userName !== action.payload.userName);
     //   break;
+    case ADD_USER:
+      console.log(action.payLoad);
+      return {
+        ...state,
+        user: action.payLoad,
+      };
+      case UPDATE_USER:
+        console.log(action.payLoad);
+        return{
+          ...state,
+          user: action.payLoad
+        }
     default:
-      break;
+      return state;
   }
-}, initialState);
+};
 
 export default reducer;
+

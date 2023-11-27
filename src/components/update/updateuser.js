@@ -13,7 +13,7 @@ import {
   addTeacherDetails,
   setAllCategories,
 }
-from "../../redux/action";
+from "../../redux/actions/action";
 
 function mapStateToProps(state) {
   return {
