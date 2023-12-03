@@ -17,9 +17,9 @@ function Login(props) {
   async function insertToAccount() {
     console.log("נכנס לפונקציה");
     try{
-      navigation("/account_pupil");
+      // navigation("/account_pupil");
       const { data } = await axios.post(
-        `http://localhost:3030/user/findUserByName`, {
+        `http://localhost:7000/user/findUserByName`, {
           mail: mail,
           password: password,
         })

@@ -43,7 +43,7 @@ function Register(props) {
 
   async function newUserAndTeacher() {
     try {
-      const { data } = await axios.post(`http://localhost:3030/user/newUser`, {
+      const { data } = await axios.post(`http://localhost:7000/user/newUser`, {
         userName: userName,
         password: password,
         phone: phone,
@@ -102,7 +102,7 @@ function Register(props) {
       }
 
       const { data } = await axios.post(
-        `http://localhost:3030/teacherData/newData`,
+        `http://localhost:7000/teacherData/newData`,
         {
           dateBirth: yearBirth,
           city: city,
@@ -138,7 +138,7 @@ function Register(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3030/category/getAllCategories`)
+      .get(`http://localhost:7000/category/getAllCategories`)
       .then((res) => {
         console.log(res.data);
         dispatch({
@@ -155,7 +155,7 @@ function Register(props) {
     if (addCategoties.trim().length === 0) return alert("הזן תחום לימוד!");
     console.log(addCategoties);
     axios
-      .post(`http://localhost:3030/Category/newCategory`, {
+      .post(`http://localhost:7000/Category/newCategory`, {
         categoryName: addCategoties,
         subCategoty: addSubCategories,
       })

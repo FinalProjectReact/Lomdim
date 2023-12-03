@@ -31,7 +31,7 @@ function AccountPupil(props) {
   }
 
   const deleteFromAccount=async()=>{
-    axios.delete(`http://localhost:3030/user/deleteUserById/`, { id:user.id})
+    axios.delete(`http://localhost:7000/user/deleteUserById/`, { id:user.id})
       .then(response => {
         console.log('הבקשה DELETE הושלמה בהצלחה');
         console.log('תשובה מהשרת:', response.data);
@@ -43,7 +43,7 @@ function AccountPupil(props) {
     // debugger;
     // try {
     //   console.log(currentUser)
-    //   let res = await axios.delete(`http://localhost:3030/user/deleteUserById/${user.id}`);
+    //   let res = await axios.delete(`http://localhost:7000/user/deleteUserById/${user.id}`);
     //   console.log(res.data);
     //   // dispatch(setAllUsers(res.data.getAllUsers));
     //   // Set the filterTeacher state here

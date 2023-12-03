@@ -35,7 +35,7 @@ function CreateLesson(props) {
   useEffect(() => {
     axios
       //ייבוא כל נושאי הלימוד מהמסד נתונים
-      .get(`http://localhost:3030/category/getAllCategories`)
+      .get(`http://localhost:7000/category/getAllCategories`)
       .then((res) => {
         console.log(res.data);
         dispatch(setAllCategories(res.data.getAllCategories));
@@ -52,7 +52,7 @@ function CreateLesson(props) {
   const allTeachters = async () => {
     try {
       let res = await axios.get(
-        `http://localhost:3030/teacherData/getAllTeachers`
+        `http://localhost:7000/teacherData/getAllTeachers`
       );
       console.log(res.data);
       dispatch(setAllTeacher(res.data.getAllTeachers));
@@ -67,7 +67,7 @@ function CreateLesson(props) {
 
   // const allUsers = async () => {
   //   try {
-  //     let res = await axios.get(`http://localhost:3030/user/getAllUsers`);
+  //     let res = await axios.get(`http://localhost:7000/user/getAllUsers`);
   //     console.log(res.data);
   //     dispatch(setAllUsers(res.data.getAllUsers));
   //     setUser(res.data.getAllUsers)

@@ -65,7 +65,7 @@ function UpdateUser(props) {
   
       if (user.data && user.data.newUser) {
         const response = await axios.post(
-          `http://localhost:3030/teacherData/newData`,
+          `http://localhost:7000/teacherData/newData`,
           {
             dateBirth: yearBirth,
             city: city,
@@ -102,7 +102,7 @@ function UpdateUser(props) {
 
   async function newUserAndTeacher() {
     try {
-      const response = await axios.post(`http://localhost:3030/user/newUser`, {
+      const response = await axios.post(`http://localhost:7000/user/newUser`, {
         userName: userName,
         password: password,
         phone: phone,
@@ -122,7 +122,7 @@ function UpdateUser(props) {
     if (addCategoties.trim().length === 0) return alert("הזן תחום לימוד!");
     console.log(addCategoties);
     axios
-      .post(`http://localhost:3030/Category/newCategory`, {
+      .post(`http://localhost:7000/Category/newCategory`, {
         categoryName: addCategoties,
         subCategoty: addSubCategories,
       })

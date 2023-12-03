@@ -18,7 +18,7 @@ function LessonHistory(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3030/lesson/getAllLessons`)
+      .get(`http://localhost:7000/lesson/getAllLessons`)
       .then((res) => {
         console.log(res.data);
         dispatch(setAllLessons(res.data.getAllLessons));

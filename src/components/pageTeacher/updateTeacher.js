@@ -73,7 +73,7 @@ function ProfilTeacher(props) {
       })
     );
     const { data } = await axios.put(
-      `http://localhost:3030/user/updateUser/${userState["_id"]}`,
+      `http://localhost:7000/user/updateUser/${userState["_id"]}`,
       {
         userName: userNameRef.current?.value,
         password: passwordRef.current?.value,
