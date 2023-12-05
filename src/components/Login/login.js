@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 // import AuthContext from "../contex/authProvider";
 import "./login.css";
 import axios from "axios";
-import { addUser } from "../../redux/action";
+import { addUser } from "../../redux/actions/action";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -17,20 +17,22 @@ function Login(props) {
   async function insertToAccount() {
     console.log("נכנס לפונקציה");
     try{
-      navigation("/account_pupil");
+       navigation("/account_pupil");
+
       const { data } = await axios.post(
-        `http://localhost:3030/user/findUserByName`, {
+        `http://localhost:8000/user/findUserByName`, {
           mail: mail,
           password: password,
         })
         console.log(data);
-        if (data && data.user) {
+        if (data) {
           //insert to store
-          dispatch(addUser(data.findUserByName));
           
           //insert cerrent user to browser
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("loggedin", true);
+
+          dispatch(addUser(data.findUserByName));
 
         //   if (data.user.status === "תלמיד") {
         //   navigation("/account_pupil");
@@ -42,6 +44,7 @@ function Login(props) {
         alert("א-מייל או סיסמא שגויים!\n נסה שנית");
         console.log(err);
       }
+
   }
 
   return (

@@ -1,65 +1,98 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { setAllLessons } from "../../redux/action";
+import { setAllLessons } from "../../redux/actions/action";
+
+// Assuming you have a helper function to get the teacher's name and city
+// Replace this with your actual implementation
+const getTeacherDetails = (teacherId, teachers) => {
+  const teacher = teachers.find((t) => t.id === teacherId);
+  return teacher ? `${teacher.name}, ${teacher.city}` : "";
+};
 
 function mapStateToProps(state) {
   return {
     lessons: state.lesson.lesson,
     currentUser: state.user.currentUser,
+    // teachers: state.teachers.teachers, // Assuming you have a teachers reducer
   };
 }
 
 function LessonHistory(props) {
-  const { lessons, currentUser, dispatch } = props;
+  const { lessons, currentUser, dispatch, teachers } = props;
   const [confirm, setConfirm] = useState(true);
-  const filterLesson = () =>
-    lessons.filter((index) => index.id_pupil !== currentUser.ObjectId);
+  
+  const [lessons2, setlessons2] = useState([]);
 
-    useEffect(() => {
-        axios
-          .get(`http://localhost:3030/lesson/getAllLessons`)
-          .then((res) => {
-            console.log(res.data);
-            dispatch(setAllLessons(res.data.getAllLessons));
-          })
-          .catch((err) => {
-            alert("error");
-            console.log(err);
-          });
-      }, []);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/lesson/getAllLessons`)
+      .then((res) => {
+        console.log(res.data);
+        setlessons2(res.data.getAllLessons)
+
+        dispatch(setAllLessons(res.data.getAllLessons));
+      })
+      .catch((err) => {
+        alert("error");
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
-      <div className="cards">
-        {filterLesson && filterLesson.lenght ? (
-          filterLesson.map((item, index) => (
-            <div className="card-index" key={index}>
-              <h4>{item.id_teacher}</h4>
-              <p>פירוט</p>
-              {!confirm ? (
-                <p>לא מאושר</p>
-              ) : (
-                <p style={{ color: "green" }}>מאושר</p>
-              )}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-trash"
-                viewBox="0 0 16 16"
-              >
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-              </svg>
-            </div>
-          ))
-        ) : (
-          <>לא נמצאו מורים</>
-        )}
-      </div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>מורה</th>
+            <th>פלאפון</th>
+            <th>מייל</th>
+
+            <th>קטגוריה</th>
+            <th>סטטוס</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {lessons2.length ? (
+            lessons2.map((item, index) => (
+              <tr key={index}>
+                <td>{item.id_teacher.userName}</td>
+                <td>{item.id_teacher.phone}</td>
+                <td>{item.id_teacher.mail}</td>
+
+                <td>
+                  {item.categories.map((category) => (
+                    <span key={category.categoryId}>{category.categoryId}</span>
+                  ))}
+                </td>
+                <td>{item.status ? "Pressed" : "Not Pressed"}</td>
+                <td>
+                  <button className="btn btn-danger">
+                    {/* Add your delete logic here */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-trash"
+                      viewBox="0 0 16 16"
+                    >
+                      {/* Your trash icon paths */}
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">No lessons found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </>
   );
 }
+
 export default connect(mapStateToProps)(LessonHistory);

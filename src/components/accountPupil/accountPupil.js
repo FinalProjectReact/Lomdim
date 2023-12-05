@@ -6,6 +6,7 @@ import { Tabs, Tab } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import LessonHistory from "./lessonHistory";
 
 
 function mapStateToProps(state) {
@@ -31,7 +32,7 @@ function AccountPupil(props) {
   }
 
   const deleteFromAccount=async()=>{
-    axios.delete(`http://localhost:3030/user/deleteUserById/`, { id:user.id})
+    axios.delete(`http://localhost:8000/user/deleteUserById/`, { id:user.id})
       .then(response => {
         console.log('הבקשה DELETE הושלמה בהצלחה');
         console.log('תשובה מהשרת:', response.data);
@@ -43,7 +44,7 @@ function AccountPupil(props) {
     // debugger;
     // try {
     //   console.log(currentUser)
-    //   let res = await axios.delete(`http://localhost:3030/user/deleteUserById/${user.id}`);
+    //   let res = await axios.delete(`http://localhost:8000/user/deleteUserById/${user.id}`);
     //   console.log(res.data);
     //   // dispatch(setAllUsers(res.data.getAllUsers));
     //   // Set the filterTeacher state here
@@ -89,7 +90,8 @@ function AccountPupil(props) {
             <CreateLesson categories={categories} />
           </Tab>
           <Tab eventKey="two" title="היסטוריית שיעורים">
-            <p>Tab 2</p>
+            <p><LessonHistory/></p>  
+
           </Tab>
           <Tab eventKey="three" title="מחיקת חשבון" >
             {/* <p>Tab 3</p> */}

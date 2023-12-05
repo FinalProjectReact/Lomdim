@@ -11,7 +11,11 @@ import HowToLearnEnglish from "../blog/items-blogs/howToLearnEnglish";
 import AccountPupil from "../accountPupil/accountPupil";
 import AccountTeacher from "../accountTeacher/accountTeacher";
 import PageTeacher from "../pageTeacher/pageTeacher";
-import ContactUs from "../contactUs/ContactUs.js"
+import ContactUs from "../ContactUs/ContactUs";
+
+import UpdateTeacher from "../pageTeacher/updateTeacher";
+import LessonTeacher from "../pageTeacher/lessonTeacher";
+import LessonTable from "../pageTeacher/lessonTeble";
 
 export default function Body() {
   return (
@@ -25,10 +29,14 @@ export default function Body() {
         <Route path="/register" element={<Register />} />
         <Route path="/personal_details" element={<PersonalDetails />} />
         <Route path="/account_pupil" element={<AccountPupil />} />
-        <Route path="/account_teacher" element={<AccountTeacher />} />
-        <Route path="/page_teacher" element={<PageTeacher />} />
+        <Route path="/account_teacher" element={<PageTeacher />} />
+        <Route path="/page_teacher" element={<PageTeacher/>} />
+        <Route path="/update_teacher" element={<UpdateTeacher />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/update" element={<UpdateUser />} />
+        <Route path="/lesson_teacher" element={<LessonTeacher />} />
+        <Route path="/lesson_table_techer" element={<LessonTable />} />
 
       </Routes>
     </>

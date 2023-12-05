@@ -7,8 +7,9 @@ import {
   setAllCategories,
   setAllTeacher,
   setAllUsers,
-} from "../../redux/action";
+} from "../../redux/actions/action";
 import SelectedCity from "./listCities";
+import { Modal, Button, Form, Collapse, ListGroup } from "react-bootstrap";
 
 function mapStateToProps(state) {
   return {
@@ -21,6 +22,11 @@ function mapStateToProps(state) {
 function CreateLesson(props) {
   const { categories, dispatch, teachers } = props;
 
+
+
+
+
+
   //משתנים
   const [selected, setSelected] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -29,11 +35,59 @@ function CreateLesson(props) {
   const [filterTeacher, setFilterTeacher] = useState([]);
   // const [user,setUser]=useState([])
   const [selectedTeacher, setSelectedTeacher] = useState();
+
+
+  const [selectedTeacherDetails, setSelectedTeacherDetails] = useState(null);
+
+
+  const [showModal, setShowModal] = useState(false);
+  const [formValue, setFormValue] = useState('');
+
+
+//מידע נוסף
+const [isOpen, setIsOpen] = useState(false);
+
+const handleToggle = () => {
+  setIsOpen(!isOpen);
+};
+
+  const handleModalOpen = () => {
+    setShowModal(true);
+  }
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  }
+
+  const handleFormSubmit =async (item) => {
+    // Handle form submission logic here
+    //הוספת שיעור לשרת
+        // אם הבקשה תצליח, אז יש להפעיל את הפונקציה הזו
+        await axios.post('http://localhost:8000/lesson/newLesson', {
+          id_teacher: item._id,
+          id_pupil:  JSON.parse(localStorage.getItem("user"))._id,
+          categories: [], // נשלח רשימת קטגוריות או משהו מתאים
+          text: formValue,
+        });
+    
+    console.log('Form submitted:', formValue);
+    handleModalClose();
+  }
+  
+  const handleFormChange = (event) => {
+    setFormValue(event.target.value);
+  }
+
+
+
+
+
+
   //כאשר עולה הדף יכנס לסטור כל הקטגוריות הנמצאות במסד נתונים
   useEffect(() => {
     axios
       //ייבוא כל נושאי הלימוד מהמסד נתונים
-      .get(`http://localhost:3030/category/getAllCategories`)
+      .get(`http://localhost:8000/category/getAllCategories`)
       .then((res) => {
         console.log(res.data);
         dispatch(setAllCategories(res.data.getAllCategories));
@@ -50,7 +104,7 @@ function CreateLesson(props) {
   const allTeachters = async () => {
     try {
       let res = await axios.get(
-        `http://localhost:3030/teacherData/getAllTeachers`
+        `http://localhost:8000/teacherData/getAllTeachers`
       );
       console.log(res.data);
       dispatch(setAllTeacher(res.data.getAllTeachers));
@@ -62,9 +116,10 @@ function CreateLesson(props) {
   };
 
   //ייבוא רשימת כל המשתמשים מהמסד נתונים
+
   // const allUsers = async () => {
   //   try {
-  //     let res = await axios.get(`http://localhost:3030/user/getAllUsers`);
+  //     let res = await axios.get(`http://localhost:8000/user/getAllUsers`);
   //     console.log(res.data);
   //     dispatch(setAllUsers(res.data.getAllUsers));
   //     setUser(res.data.getAllUsers)
@@ -75,6 +130,7 @@ function CreateLesson(props) {
   //   }
     
   // };
+  
 
   //זימון כתובת API לרשימת ערים בישראל
   const doApi = async () => {
@@ -146,7 +202,7 @@ function CreateLesson(props) {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-search"
+                className="bi bi-search"
                 viewBox="0 0 16 16"
               >
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -170,9 +226,57 @@ function CreateLesson(props) {
                     <div className="card-body">
                       <h5 className="card-title">{item.city}</h5>
                       <p className="card-text">{item.aboutMe}</p>
-                      <a href="#!" className="btn btn-primary">
+                      <Button onClick={handleToggle} variant="primary">
                         למידע נוסף
-                      </a>
+      </Button>
+      <Collapse in={isOpen}>
+        <div>
+
+      <p>
+        <strong>תאריך לידה:</strong> {item.dateBirth}
+      </p>
+  
+      <p>
+        <strong>סטטוס:</strong> {item.status ? "פעיל" : "לא פעיל"}
+      </p>
+
+      <p>
+        <strong>מקומות לימוד:</strong>
+        <ListGroup>
+          {item.lessonPlace.map((place, index) => (
+            <ListGroup.Item key={index}>{place}</ListGroup.Item>
+          ))}
+        </ListGroup>
+      </p>
+      <p>
+        <strong>קטגוריות:</strong>
+        <ListGroup>
+          {item.categories.map((category, index) => (
+            <ListGroup.Item key={index}>{category}</ListGroup.Item>
+          ))}
+        </ListGroup>
+      </p>
+        <Button onClick={handleModalOpen}>ליצירת פניה</Button>
+        </div>
+      </Collapse>
+
+<Modal show={showModal} onHide={handleModalClose}>
+  <Modal.Header closeButton>
+    <Modal.Title>המורה:{item.userName} עיר:{item.city}</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <Form>
+      <Form.Group controlId="formInput">
+        <Form.Label>יש לך מה לומר למורה?</Form.Label>
+        <Form.Control type="text" placeholder="Enter value" onChange={handleFormChange} value={formValue} />
+      </Form.Group>
+    </Form>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleModalClose}>Close</Button>
+    <Button variant="primary" onClick={()=>handleFormSubmit(item)}>לשליחה</Button>
+  </Modal.Footer>
+</Modal>
                     </div>
                   </div>
                 </React.Fragment>
