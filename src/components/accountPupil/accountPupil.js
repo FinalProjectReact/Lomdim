@@ -69,7 +69,7 @@ function AccountPupil(props) {
           <button
               type="button"
               class="btn btn-outline-primary btn"
-              // onClick={insertToAccount}
+              onClick={()=> navigation("/update_teacher")}
             >
               עדכון פרטים
             </button>
@@ -89,7 +89,7 @@ function AccountPupil(props) {
           <Tab eventKey="one" title="חפש מורה">
             <CreateLesson categories={categories} />
           </Tab>
-          <Tab eventKey="two" title="היסטוריית שיעורים">
+          <Tab eventKey="two" title="הפניות שלי">
             <p><LessonHistory/></p>  
 
           </Tab>
@@ -100,6 +100,7 @@ function AccountPupil(props) {
           </Tab>
         </Tabs>
       </div>
+      <br/>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./accountPupil.css";
-import Map from "../maps/gMaps";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
@@ -22,11 +21,6 @@ function mapStateToProps(state) {
 function CreateLesson(props) {
   const { categories, dispatch, teachers } = props;
 
-
-
-
-
-
   //משתנים
   const [selected, setSelected] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -36,52 +30,44 @@ function CreateLesson(props) {
   // const [user,setUser]=useState([])
   const [selectedTeacher, setSelectedTeacher] = useState();
 
-
   const [selectedTeacherDetails, setSelectedTeacherDetails] = useState(null);
 
-
   const [showModal, setShowModal] = useState(false);
-  const [formValue, setFormValue] = useState('');
+  const [formValue, setFormValue] = useState("");
 
+  //מידע נוסף
+  const [isOpen, setIsOpen] = useState(false);
 
-//מידע נוסף
-const [isOpen, setIsOpen] = useState(false);
-
-const handleToggle = () => {
-  setIsOpen(!isOpen);
-};
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleModalOpen = () => {
     setShowModal(true);
-  }
+  };
 
   const handleModalClose = () => {
     setShowModal(false);
-  }
+  };
 
-  const handleFormSubmit =async (item) => {
+  const handleFormSubmit = async (item) => {
     // Handle form submission logic here
     //הוספת שיעור לשרת
-        // אם הבקשה תצליח, אז יש להפעיל את הפונקציה הזו
-        await axios.post('http://localhost:8000/lesson/newLesson', {
-          id_teacher: item._id,
-          id_pupil:  JSON.parse(localStorage.getItem("user"))._id,
-          categories: [], // נשלח רשימת קטגוריות או משהו מתאים
-          text: formValue,
-        });
-    
-    console.log('Form submitted:', formValue);
+    // אם הבקשה תצליח, אז יש להפעיל את הפונקציה הזו
+    await axios.post("http://localhost:8000/lesson/newLesson", {
+      id_teacher: item._id,
+      id_pupil: JSON.parse(localStorage.getItem("user"))._id,
+      categories: [], // נשלח רשימת קטגוריות או משהו מתאים
+      text: formValue,
+    });
+
+    console.log("Form submitted:", formValue);
     handleModalClose();
-  }
-  
+  };
+
   const handleFormChange = (event) => {
     setFormValue(event.target.value);
-  }
-
-
-
-
-
+  };
 
   //כאשר עולה הדף יכנס לסטור כל הקטגוריות הנמצאות במסד נתונים
   useEffect(() => {
@@ -110,6 +96,7 @@ const handleToggle = () => {
       dispatch(setAllTeacher(res.data.getAllTeachers));
       // Set the filterTeacher state here
       setFilterTeacher(res.data.getAllTeachers);
+      console.log(filterTeacher+"filter");
     } catch (error) {
       console.log(error);
     }
@@ -128,9 +115,8 @@ const handleToggle = () => {
   //   } catch (error) {
   //     console.log(error);
   //   }
-    
+
   // };
-  
 
   //זימון כתובת API לרשימת ערים בישראל
   const doApi = async () => {
@@ -141,8 +127,11 @@ const handleToggle = () => {
   };
 
   function searchTeachers() {
+    debugger;
     const filteredTeachers = teachers.filter((teacher) => {
-      return teacher.city === selectedCity && teacher.categories.includes(selected);
+      return (
+        teacher.city === selectedCity && teacher.categories.includes(selected)
+      );
     });
     setFilterTeacher(filteredTeachers);
     setShowList(true);
@@ -196,29 +185,18 @@ const handleToggle = () => {
               className="btn btn-primary btn-rounded"
             >
               חפש
-              <i className="fas fa-search"></i>
-              {/* <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-search"
-                viewBox="0 0 16 16"
-              >
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-              </svg> */}
             </button>
           </div>
         </div>
 
         {showList ? (
           <div>
-            {filterTeacher.map((item) =>  {
+            {filterTeacher.map((item) => {
               //מכיל כרגע את כל ערכי אוביקט היוזר- foundUser זה השורה ששונתה
-              const foundUser = item.userId
+              const foundUser = item.userId;
               return (
                 <React.Fragment key={foundUser.userName}>
-                {console.log(item)}
+                  {console.log(item)}
                   <div className="card">
                     <h5 className="card-header">
                       {foundUser ? foundUser.userName : "User not found"}
@@ -228,55 +206,76 @@ const handleToggle = () => {
                       <p className="card-text">{item.aboutMe}</p>
                       <Button onClick={handleToggle} variant="primary">
                         למידע נוסף
-      </Button>
-      <Collapse in={isOpen}>
-        <div>
+                      </Button>
+                      <Collapse in={isOpen}>
+                        <div>
+                          <p>
+                            <strong>תאריך לידה:</strong> {item.dateBirth}
+                          </p>
 
-      <p>
-        <strong>תאריך לידה:</strong> {item.dateBirth}
-      </p>
-  
-      <p>
-        <strong>סטטוס:</strong> {item.status ? "פעיל" : "לא פעיל"}
-      </p>
+                          <p>
+                            <strong>סטטוס:</strong>{" "}
+                            {item.status ? "פעיל" : "לא פעיל"}
+                          </p>
 
-      <p>
-        <strong>מקומות לימוד:</strong>
-        <ListGroup>
-          {item.lessonPlace.map((place, index) => (
-            <ListGroup.Item key={index}>{place}</ListGroup.Item>
-          ))}
-        </ListGroup>
-      </p>
-      <p>
-        <strong>קטגוריות:</strong>
-        <ListGroup>
-          {item.categories.map((category, index) => (
-            <ListGroup.Item key={index}>{category}</ListGroup.Item>
-          ))}
-        </ListGroup>
-      </p>
-        <Button onClick={handleModalOpen}>ליצירת פניה</Button>
-        </div>
-      </Collapse>
+                          <p>
+                            <strong>מקומות לימוד:</strong>
+                            <ListGroup>
+                              {item.lessonPlace.map((place, index) => (
+                                <ListGroup.Item key={index}>
+                                  {place}
+                                </ListGroup.Item>
+                              ))}
+                            </ListGroup>
+                          </p>
+                          <p>
+                            <strong>קטגוריות:</strong>
+                            <ListGroup>
+                              {item.categories.map((category, index) => (
+                                <ListGroup.Item key={index}>
+                                  {category}
+                                </ListGroup.Item>
+                              ))}
+                            </ListGroup>
+                          </p>
+                          <Button onClick={handleModalOpen}>ליצירת פניה</Button>
+                        </div>
+                      </Collapse>
 
-<Modal show={showModal} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <Modal.Title>המורה:{item.userName} עיר:{item.city}</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Form>
-      <Form.Group controlId="formInput">
-        <Form.Label>יש לך מה לומר למורה?</Form.Label>
-        <Form.Control type="text" placeholder="Enter value" onChange={handleFormChange} value={formValue} />
-      </Form.Group>
-    </Form>
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={handleModalClose}>Close</Button>
-    <Button variant="primary" onClick={()=>handleFormSubmit(item)}>לשליחה</Button>
-  </Modal.Footer>
-</Modal>
+                      <Modal show={showModal} onHide={handleModalClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>
+                            המורה:{item.userName} עיר:{item.city}
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group controlId="formInput">
+                              <Form.Label>יש לך מה לומר למורה?</Form.Label>
+                              <Form.Control
+                                type="text"
+                                placeholder="Enter value"
+                                onChange={handleFormChange}
+                                value={formValue}
+                              />
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button
+                            variant="secondary"
+                            onClick={handleModalClose}
+                          >
+                            Close
+                          </Button>
+                          <Button
+                            variant="primary"
+                            onClick={() => handleFormSubmit(item)}
+                          >
+                            לשליחה
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
                     </div>
                   </div>
                 </React.Fragment>

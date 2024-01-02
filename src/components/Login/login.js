@@ -14,10 +14,12 @@ function Login(props) {
   const [mail, setMail] = useState("");
   const [password, setpassword] = useState("");
 
-  async function insertToAccount() {
+  async function insertToAccount(e) {
+    debugger
+    e.preventDefault()
     console.log("נכנס לפונקציה");
     try{
-       navigation("/account_pupil");
+      //  navigation("/account_pupil");
 
       const { data } = await axios.post(
         `http://localhost:8000/user/findUserByName`, {
@@ -32,13 +34,13 @@ function Login(props) {
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("loggedin", true);
 
-          dispatch(addUser(data.findUserByName));
+          // dispatch(addUser(data.findUserByName));
 
-        //   if (data.user.status === "תלמיד") {
-        //   navigation("/account_pupil");
-        // } else {
-        //   navigation("/account_teacher");
-        // }
+          if (data.user.status === "תלמיד") {
+          navigation("/account_pupil");
+        } else {
+          navigation("/page_teacher");
+        }
       }
     } catch(err) {
         alert("א-מייל או סיסמא שגויים!\n נסה שנית");

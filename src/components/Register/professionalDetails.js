@@ -3,6 +3,7 @@ import "../Register/register.css";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import ModalCategories from "./modalCategories";
+import axios from "axios";
 
 function mapStateToProps(state) {
   return {};
@@ -15,7 +16,7 @@ function ProfessionalDetails(props) {
     // addNewTeacher,
     // setHouseNum,
     // setStreet,
-    setCity,
+    setSelectedCity,
     setYearBirth,
     setDetail,
     setAddCategories,
@@ -26,6 +27,8 @@ function ProfessionalDetails(props) {
     setAllCheckedStudy,
     allCheckedStudy,
   } = props;
+
+  useEffect(()=>{doApi();},[])
 
   const years = [];
   for (let i = 1960; i < 2010; i++) {
@@ -57,6 +60,17 @@ function ProfessionalDetails(props) {
   const [subChecked, setSubChecked] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   // const [show, setShow] = useState(false);
+  const [cities, setCities] = useState();
+
+
+    //זימון כתובת API לרשימת ערים בישראל
+    const doApi = async () => {
+      let url = `https://data.gov.il/api/3/action/datastore_search?resource_id=5c78e9fa-c2e2-4771-93ff-7f400a12f7ba&limit=1272`;
+      let res = await axios.get(url);
+      console.log(res.data.result.records);
+      setCities(res.data.result.records);
+    };
+
 
   return (
     <div className="col-lg-6 text-right">
@@ -67,12 +81,18 @@ function ProfessionalDetails(props) {
             <div className="form-outline flex-fill mb-0">
               <input
                 type="text"
-                id="form3Example1c"
+                id="input-datalist"
+                list="list-cities"
                 class="form-control"
                 placeholder=" הזן עיר מגורים "
-                onChange={(e) => setCity(e.target.value)}
+                onChange={(e) => setSelectedCity(e.target.value)}
                 required
-              />
+                ></input>
+              <datalist id="list-cities">
+                {cities &&
+                  cities.length &&
+                  cities.map((item) => <option>{item.שם_ישוב}</option>)}
+              </datalist>
             </div>
           </div>
 

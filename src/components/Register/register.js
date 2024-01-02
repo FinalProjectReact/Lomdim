@@ -41,7 +41,20 @@ function Register(props) {
   const [addCategoties, setAddCategories] = useState("");
   const [addSubCategories, setAddSubCategories] = useState([]);
 
-  async function newUserAndTeacher() {
+
+
+  // function createUserSubmit() {
+  //   debugger
+  //   if (click === "תלמיד") newUserAndTeacher();
+  //   else if (click === "מורה") insertNewTeacher();
+  //   else {
+  //     alert("בחר בתור מי אתה נכנס")
+  //     console.log("button error");}
+  // }
+
+
+  async function createUserSubmit() {
+    debugger
     try {
       const { data } = await axios.post(`http://localhost:8000/user/newUser`, {
         userName: userName,
@@ -53,77 +66,48 @@ function Register(props) {
       });
       console.log(data);
       //משתמש נוכחי נשמר באחסון של הדפדפן
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("loggedin", true);
 
-      return { data: data };
+      if(data.status==="תלמיד")
+        navigation("/account_pupil");
+      else if(data.status==="מורה")
+        insertNewTeacher(data);
+
+      //return { data: data };
     } catch (err) {
       console.error(err);
-      return { message: err };
+      //return { message: err };
     }
   }
 
-  function createUserSubmit() {
-    if (click === "תלמיד") insertNewUser();
-    else if (click === "מורה") insertNewTeacher();
-    else console.log("button error");
-  }
-
-  async function insertNewUser() {
-    console.log("enter function");
+  async function insertNewTeacher(dataUser) {
+    debugger
     try {
-      navigation("/account_pupil");
+      // let user = await newUserAndTeacher();
+      // user = user.data;
 
-      const user = await newUserAndTeacher();
-      console.log("create user in server");
-
-      if (user.data && user.data.newUser) {
-        dispatch(addUser(user.data.newUser));
-      } else {
-        console.log("User data not available");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async function insertNewTeacher() {
-    try {
-      navigation("/page_teacher");
-
-      let user = await newUserAndTeacher();
-      user = user.data;
-
-      if (user && user.newUser) {
-        dispatch(addUser(user.newUser));
-      } else {
-        console.log("User data not available");
-      }
+      // if (user && user.newUser) {
+      //   dispatch(addUser(user.newUser));
+      // } else {
+      //   console.log("User data not available");
+      // }
 
       const { data } = await axios.post(
         `http://localhost:8000/teacherData/newData`,
         {
           dateBirth: yearBirth,
           city: city,
-          // str: street,
-          // numStr: houseNum,
           lessonPlace: allCheckedPlace,
           aboutMe: detail,
-          userId: user["_id"],
+          userId: dataUser["_id"],
           categories: allCheckedStudy,
         }
       );
-      if (data && data.newData) {
-        console.log(data);
-        dispatch(addUser(user.data.newUser));
-        dispatch(addTeacherDetails(data.newData));
-      } else {
-        console.log("Error: Teacher data not available");
-      }
-
-      // } else {
-      //   console.log("Error: User data not available");
-      // }
+      console.log(data);
+      localStorage.setItem("teacherInfo", JSON.stringify(data));
+      navigation("/page_teacher");
+   
     } catch (err) {
       if (err.response) {
         console.error("Server responded with an error:", err.response.data);
@@ -333,7 +317,7 @@ function Register(props) {
                         <ProfessionalDetails
                           // setHouseNum={setHouseNum}
                           // setStreet={setStreet}
-                          setCity={setCity}
+                          setSelectedCity={setCity}
                           setYearBirth={setYearBirth}
                           setDetail={setDetail}
                           allCheckedStudy={allCheckedStudy}
