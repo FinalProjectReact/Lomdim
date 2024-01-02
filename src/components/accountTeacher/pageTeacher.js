@@ -3,19 +3,8 @@ import React from "react";
 
 export default function PageTeacher() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const teacherData = JSON.parse(localStorage.getItem("teacherData"));
 
-//   useEffect(() => {
-
-//     const {data}= await
-//     axios
-//     .post(`http://localhost:8000/teacherData/findDataById`, {
-//         userId: us
-//     })
-//     .then((res)=>{
-//         console.log(res.data);
-
-//     })
-// }, []);
   return (
     <>
       <br />
@@ -25,7 +14,7 @@ export default function PageTeacher() {
             <figure>
               <h6 className="display-6">המורה {user.userName}</h6><br/>
               <figcaption class="blockquote-footer">
-                {/* עיר מגורים */}
+              {teacherData.city}
               </figcaption>
             </figure>
           </div>
@@ -39,10 +28,10 @@ export default function PageTeacher() {
                 <div className="row">
                   <br />
                   <p className="lead fw-normal">קצת עליי</p>
-                  <p>//////////</p>
+                  <p>{teacherData.aboutMe}</p>
                   <br />
                   <p className="lead fw-normal">תחומי לימוד</p>
-                  <p>//////////</p>
+                  <p>{teacherData.categories}</p>
                   <br />
                 </div>
               </div>

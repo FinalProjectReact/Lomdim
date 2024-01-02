@@ -96,7 +96,7 @@ function AccountPupil(props) {
           <Tab eventKey="three" title="מחיקת חשבון" >
             {/* <p>Tab 3</p> */}
             <p>האם אתה בטוח שברצונך לבטל את חשבונך באתר?</p>
-            <input type="button" onClick={deleteFromAccount} value="מחק את חשבוני"></input>
+            <button className="btn btn-primary btn-rounded" type="button" onClick={deleteFromAccount} value="מחק את חשבוני"></button>
           </Tab>
         </Tabs>
       </div>

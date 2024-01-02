@@ -43,16 +43,6 @@ function Register(props) {
 
 
 
-  // function createUserSubmit() {
-  //   debugger
-  //   if (click === "תלמיד") newUserAndTeacher();
-  //   else if (click === "מורה") insertNewTeacher();
-  //   else {
-  //     alert("בחר בתור מי אתה נכנס")
-  //     console.log("button error");}
-  // }
-
-
   async function createUserSubmit() {
     debugger
     try {
@@ -74,25 +64,15 @@ function Register(props) {
       else if(data.status==="מורה")
         insertNewTeacher(data);
 
-      //return { data: data };
+   
     } catch (err) {
       console.error(err);
-      //return { message: err };
     }
   }
 
   async function insertNewTeacher(dataUser) {
     debugger
     try {
-      // let user = await newUserAndTeacher();
-      // user = user.data;
-
-      // if (user && user.newUser) {
-      //   dispatch(addUser(user.newUser));
-      // } else {
-      //   console.log("User data not available");
-      // }
-
       const { data } = await axios.post(
         `http://localhost:8000/teacherData/newData`,
         {
@@ -104,8 +84,9 @@ function Register(props) {
           categories: allCheckedStudy,
         }
       );
-      console.log(data);
-      localStorage.setItem("teacherInfo", JSON.stringify(data));
+      console.log(data._id);
+      debugger 
+      localStorage.setItem("teacher", JSON.stringify(data));
       navigation("/page_teacher");
    
     } catch (err) {

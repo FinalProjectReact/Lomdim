@@ -19,8 +19,6 @@ function Login(props) {
     e.preventDefault()
     console.log("נכנס לפונקציה");
     try{
-      //  navigation("/account_pupil");
-
       const { data } = await axios.post(
         `http://localhost:8000/user/findUserByName`, {
           mail: mail,
@@ -28,18 +26,16 @@ function Login(props) {
         })
         console.log(data);
         if (data) {
-          //insert to store
           
           //insert cerrent user to browser
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("loggedin", true);
 
-          // dispatch(addUser(data.findUserByName));
 
           if (data.user.status === "תלמיד") {
           navigation("/account_pupil");
         } else {
-          navigation("/page_teacher");
+          navigation("/account_teacher");
         }
       }
     } catch(err) {

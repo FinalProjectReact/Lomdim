@@ -37,11 +37,11 @@ function ProfessionalDetails(props) {
 
   function categoryHandleChange(e) {
     if (e.target.checked) {
-      setAllCheckedStudy([...allCheckedStudy, e.target.id]);
+      setAllCheckedStudy([...allCheckedStudy, e.target.value]);
       setSubChecked(true);
       setSelectedCategory(e.target.id);
     } else {
-      allCheckedStudy.filter((item) => item !== e.target.id);
+      allCheckedStudy.filter((item) => item !== e.target.value);
       setSubChecked(false);
       setSelectedCategory(null);
     }
@@ -49,10 +49,10 @@ function ProfessionalDetails(props) {
 
   function placeHandleChange(e) {
     if (e.target.checked) {
-      setAllCheckedPlace([...allCheckedPlace, e.target.id]);
+      setAllCheckedPlace([...allCheckedPlace, e.target.value]);
     } else {
       setAllCheckedPlace(
-        allCheckedPlace.filter((item) => item !== e.target.id)
+        allCheckedPlace.filter((item) => item !== e.target.value)
       );
     }
   }

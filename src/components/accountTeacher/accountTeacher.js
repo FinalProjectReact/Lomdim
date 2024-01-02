@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LessonTable from "./lessonTeble";
@@ -28,6 +28,30 @@ function AccountTeacher(props) {
     localStorage.removeItem("loggedin");
     navigation("/");
   };
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            debugger;
+            const { data } = await axios.post(
+                `http://localhost:8000/teacherData/findDataById`, {
+                    userId: user._id,
+                }
+            );
+            console.log("לבדוק את הdata");
+            console.log(data);
+            if (data) {
+                localStorage.setItem("teacherData", JSON.stringify(data));
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    fetchData();
+}, [user._id]);
+
 
   const deleteFromAccount = async () => {
     axios
@@ -78,14 +102,15 @@ function AccountTeacher(props) {
           </Tab>
           <Tab eventKey="three" title="מחיקת חשבון">
             <p>האם אתה בטוח שברצונך לבטל את חשבונך באתר?</p>
-            <input
-              type="button"
+            <button
+            className="btn btn-primary btn-rounded"
               onClick={deleteFromAccount}
-              value="מחק את חשבוני"
-            ></input>
+            >מחק את חשבוני
+</button>
           </Tab>
         </Tabs>
       </div>
+      <br/>
     </>
   );
 }
