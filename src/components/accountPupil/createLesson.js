@@ -8,7 +8,7 @@ import {
   setAllUsers,
 } from "../../redux/actions/action";
 import SelectedCity from "./listCities";
-import { Modal, Button, Form, Collapse, ListGroup } from "react-bootstrap";
+import { Modal, Button, Form, Collapse, ListGroup, CloseButton } from "react-bootstrap";
 
 function mapStateToProps(state) {
   return {
@@ -51,17 +51,19 @@ function CreateLesson(props) {
   };
 
   const handleFormSubmit = async (item) => {
+    console.log("נכנס");
     // Handle form submission logic here
     //הוספת שיעור לשרת
     // אם הבקשה תצליח, אז יש להפעיל את הפונקציה הזו
     await axios.post("http://localhost:8000/lesson/newLesson", {
       id_teacher: item._id,
       id_pupil: JSON.parse(localStorage.getItem("user"))._id,
-      categories: [], // נשלח רשימת קטגוריות או משהו מתאים
+      categories: selected, // נשלח רשימת קטגוריות או משהו מתאים
+      status: false,
       text: formValue,
     });
 
-    console.log("Form submitted:", formValue);
+    console.log("Form submitted:", formValue, item);
     handleModalClose();
   };
 
@@ -114,7 +116,7 @@ function CreateLesson(props) {
     // debugger;
     const filteredTeachers = teachers.filter((teacher) => {
       return (
-        teacher.city === selectedCity && teacher.categories.includes(selected)
+        teacher.city === selectedCity || teacher.categories.includes(selected)
       );
     });
     setFilterTeacher(filteredTeachers);
@@ -170,6 +172,12 @@ function CreateLesson(props) {
             </button>
           </div>
         </div>
+        <div className="p-4"><figure>
+        <figcaption class="blockquote-footer">
+              ניתן לחפש רק לפי נושא לימוד או לפי עיר מגורים
+              </figcaption>
+        </figure></div>
+        
 
         {showList ? (
           <div>
@@ -178,7 +186,7 @@ function CreateLesson(props) {
               const foundUser = item.userId;
               return (
                 <React.Fragment key={foundUser.userName}>
-                  {console.log(item)}
+                  {/* {console.log(181+foundUser)} */}
                   <div className="card">
                     <h5 className="card-header">
                       {foundUser ? foundUser.userName : "User not found"}
@@ -224,7 +232,7 @@ function CreateLesson(props) {
                       </Collapse>
 
                       <Modal show={showModal} onHide={handleModalClose} style={{direction:"rtl"}}>
-                        <Modal.Header closeButton>
+                        <Modal.Header >
                           <Modal.Title>פנייה חדשה </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>

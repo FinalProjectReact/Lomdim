@@ -47,9 +47,8 @@ function AccountPupil(props) {
       });
   }
 
-
-  const [tabKey, initTabKey] = useState("one");
   
+  const [tabKey, initTabKey] = useState("one");
   return (
     <>
      { user && <div className="wrapper-pupil">

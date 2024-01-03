@@ -58,14 +58,14 @@ const LessonTable = ({ userId }) => {
           </tr>
         </thead>
         <tbody>
-          {lessons.map((lesson,index) => (
+          {lessons && lessons.map((lesson,index) => (
             <tr key={lesson._id}>
               <td>{index+1}</td>
-              <td>{lesson.id_pupil.userName}</td>
+              <td>{lesson.id_pupil?.userName}</td>
               {/* <td>{lesson.categories.map((category) => category.categoryId.categoryName).join(', ')}</td> */}
-              <td>{lesson.id_pupil.gender}</td>
-              <td>{lesson.id_pupil.phone}</td>
-              <td>{lesson.id_pupil.mail}</td>
+              <td>{lesson.id_pupil?.gender}</td>
+              <td>{lesson.id_pupil?.phone}</td>
+              <td>{lesson.id_pupil?.mail}</td>
               <td>{lesson.text}</td>
               <td>        
               <Form.Check

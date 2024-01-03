@@ -30,31 +30,30 @@ function AccountTeacher(props) {
     localStorage.removeItem("loggedin");
     navigation("/");
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            //debugger;
-            const { data } = await axios.post(
-                `http://localhost:8000/teacherData/findDataById`, {
-                    userId: user._id,
-                }
-            );
-            console.log("לבדוק את הdata");
-            console.log(data);
-            if (data) {
-                localStorage.setItem("teacherData", JSON.stringify(data));
-                setFlag(true)
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
+      try {
+        //debugger;
+        const { data } = await axios.post(
+          `http://localhost:8000/teacherData/findDataById`,
+          {
+            userId: user._id,
+          }
+        );
+        console.log("לבדוק את הdata");
+        console.log(data);
+        if (data) {
+          localStorage.setItem("teacherData", JSON.stringify(data));
+          setFlag(true);
         }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     fetchData();
-}, [user._id]);
-
+  }, [user._id]);
 
   const deleteFromAccount = async () => {
     axios
@@ -98,22 +97,23 @@ function AccountTeacher(props) {
         <br />
         <Tabs activeKey={tabKey} onSelect={(e) => initTabKey(e)}>
           <Tab eventKey="one" title="העמוד שלי">
-{       flag &&     <PageTeacher />
-}          </Tab>
+            {flag && <PageTeacher />}{" "}
+          </Tab>
           <Tab eventKey="two" title="הפניות שלי">
-            {/* <LessonTable/>  */}
+            <LessonTable />
           </Tab>
           <Tab eventKey="three" title="מחיקת חשבון">
             <p>האם אתה בטוח שברצונך לבטל את חשבונך באתר?</p>
             <button
-            className="btn btn-primary btn-rounded"
+              className="btn btn-primary btn-rounded"
               onClick={deleteFromAccount}
-            >מחק את חשבוני
-</button>
+            >
+              מחק את חשבוני
+            </button>
           </Tab>
         </Tabs>
       </div>
-      <br/>
+      <br />
     </>
   );
 }

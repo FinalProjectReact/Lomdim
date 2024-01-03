@@ -19,29 +19,27 @@ function mapStateToProps(state) {
 }
 
 function LessonHistory(props) {
-
   const { lessons, currentUser, teachers } = props;
   const [confirm, setConfirm] = useState(true);
   const dispatch = useDispatch();
   const [lessons2, setlessons2] = useState([]);
 
   useEffect(() => {
-    const getData =  async () => {
-   await   axios
-        .get(`http://localhost:8000/lesson/getAllLessons`)
-        .then((res) => {
-          console.log(res.data);
-          setlessons2(res.data.getAllLessons)
-  
-          dispatch(setAllLessons(res.data.getAllLessons));
-        })
-        .catch((err) => {
-          alert("error");
-          console.log(err);
-        });
+    const getData = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8000/lesson/getAllLessons`
+        );
+        console.log("פניות"+res.data.getAllLessons);
+        setlessons2(res.data.getAllLessons);
 
-    }
-    getData()
+        dispatch(setAllLessons(res.data.getAllLessons));
+      } catch (err) {
+        alert("error");
+        console.log(err);
+      }
+    };
+    getData();
   }, []);
 
   return (
@@ -53,16 +51,16 @@ function LessonHistory(props) {
             <th>פלאפון</th>
             <th>מייל</th>
 
-            <th>קטגוריה</th>
+            <th>נושא לימוד</th>
             <th>סטטוס</th>
-            <th>Action</th>
+            {/* <th>Action</th> */}
           </tr>
         </thead>
         <tbody>
-          {lessons2.length  ? (
+          {lessons2.length ? (
             lessons2.map((item, index) => (
               <tr key={index}>
-            {  console.log(item)}
+                {/* {console.log(item)} */}
                 <td>{item.id_teacher?.userName}</td>
                 <td>{item.id_teacher?.phone}</td>
                 <td>{item.id_teacher?.mail}</td>
@@ -72,10 +70,10 @@ function LessonHistory(props) {
                     <span key={category.categoryId}>{category.categoryId}</span>
                   ))}
                 </td>
-                <td>{item.status ? "Pressed" : "Not Pressed"}</td>
-                <td>
+                <td>{item.status ? "מאושר" : "לא מאושר"}</td>
+                {/* <td>
                   <button className="btn btn-danger">
-                    {/* Add your delete logic here */}
+                    Add your delete logic here
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -84,10 +82,10 @@ function LessonHistory(props) {
                       className="bi bi-trash"
                       viewBox="0 0 16 16"
                     >
-                      {/* Your trash icon paths */}
+                      Your trash icon paths
                     </svg>
                   </button>
-                </td>
+                </td> */}
               </tr>
             ))
           ) : (
