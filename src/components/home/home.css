@@ -5,9 +5,9 @@
 
 .searchTech{
   border-radius: 5px;
-  background-color: #cfcecef0;
+  background-color:  #f8f9fa;
   padding: 20px;
-  margin: 20px;
+  /* margin: 20px; */
 }
 
 /* input[type=text], select {

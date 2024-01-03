@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { setAllLessons } from "../../redux/actions/action";
 
 // Assuming you have a helper function to get the teacher's name and city
@@ -19,24 +19,29 @@ function mapStateToProps(state) {
 }
 
 function LessonHistory(props) {
-  const { lessons, currentUser, dispatch, teachers } = props;
+
+  const { lessons, currentUser, teachers } = props;
   const [confirm, setConfirm] = useState(true);
-  
+  const dispatch = useDispatch();
   const [lessons2, setlessons2] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/lesson/getAllLessons`)
-      .then((res) => {
-        console.log(res.data);
-        setlessons2(res.data.getAllLessons)
+    const getData =  async () => {
+   await   axios
+        .get(`http://localhost:8000/lesson/getAllLessons`)
+        .then((res) => {
+          console.log(res.data);
+          setlessons2(res.data.getAllLessons)
+  
+          dispatch(setAllLessons(res.data.getAllLessons));
+        })
+        .catch((err) => {
+          alert("error");
+          console.log(err);
+        });
 
-        dispatch(setAllLessons(res.data.getAllLessons));
-      })
-      .catch((err) => {
-        alert("error");
-        console.log(err);
-      });
+    }
+    getData()
   }, []);
 
   return (
@@ -54,12 +59,13 @@ function LessonHistory(props) {
           </tr>
         </thead>
         <tbody>
-          {lessons2.length ? (
+          {lessons2.length  ? (
             lessons2.map((item, index) => (
               <tr key={index}>
-                <td>{item.id_teacher.userName}</td>
-                <td>{item.id_teacher.phone}</td>
-                <td>{item.id_teacher.mail}</td>
+            {  console.log(item)}
+                <td>{item.id_teacher?.userName}</td>
+                <td>{item.id_teacher?.phone}</td>
+                <td>{item.id_teacher?.mail}</td>
 
                 <td>
                   {item.categories.map((category) => (

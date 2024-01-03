@@ -31,7 +31,7 @@ export default function PageTeacher() {
                   <p>{teacherData.aboutMe}</p>
                   <br />
                   <p className="lead fw-normal">תחומי לימוד</p>
-                  <p>{teacherData.categories}</p>
+                  <p>{teacherData.categories+" "} </p>
                   <br />
                 </div>
               </div>

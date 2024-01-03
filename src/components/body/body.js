@@ -10,11 +10,11 @@ import PersonalDetails from "../Register/professionalDetails";
 import HowToLearnEnglish from "../blog/items-blogs/howToLearnEnglish";
 import AccountPupil from "../accountPupil/accountPupil";
 import AccountTeacher from "../accountTeacher/accountTeacher";
-// import ContactUs from "../ContactUs/ContactUs";
 
 import UpdateTeacher from "../accountTeacher/updateTeacher";
 import LessonTable from "../accountTeacher/lessonTeble";
 import PageTeacher from "../accountTeacher/pageTeacher";
+import ContactUs from "../contactUs/contactUs";
 
 export default function Body() {
   return (
@@ -23,7 +23,7 @@ export default function Body() {
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/howToLearnEnglish" element={<HowToLearnEnglish />} />
-        {/* <Route path="/contact_us" element={<ContactUs />} /> */}
+        <Route path="contact_us" element={<ContactUs/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/personal_details" element={<PersonalDetails />} />

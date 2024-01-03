@@ -43,10 +43,16 @@ function Register(props) {
 
 
 
-  async function createUserSubmit() {
-    debugger
+  async function createUserSubmit(e) {
+    e.preventDefault();
+    console.log("userName", userName,
+      "password",  password,
+      "phone", phone,
+      "mail", mail,
+      "gender", gender,
+      "status", typeUser);
     try {
-      const { data } = await axios.post(`http://localhost:8000/user/newUser`, {
+      const res = await axios.post(`http://localhost:8000/user/newUser`, {
         userName: userName,
         password: password,
         phone: phone,
@@ -54,24 +60,30 @@ function Register(props) {
         gender: gender,
         status: typeUser,
       });
-      console.log(data);
+      console.log(res.data);
+     console.log( res.status);
+  
       //משתמש נוכחי נשמר באחסון של הדפדפן
-      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("user", JSON.stringify(res.data));
       localStorage.setItem("loggedin", true);
 
-      if(data.status==="תלמיד")
+      if(res.data.status==="תלמיד")
         navigation("/account_pupil");
-      else if(data.status==="מורה")
-        insertNewTeacher(data);
+      else if(res.data.status==="מורה")
+        insertNewTeacher(res.data);
 
    
     } catch (err) {
-      console.error(err);
+    //   if(res.status === 500){
+    //     alert(res?.message)
+    // }
+      console.error("err", err);
+      alert(err.response.data)
     }
   }
 
   async function insertNewTeacher(dataUser) {
-    debugger
+    //debugger
     try {
       const { data } = await axios.post(
         `http://localhost:8000/teacherData/newData`,
@@ -82,12 +94,13 @@ function Register(props) {
           aboutMe: detail,
           userId: dataUser["_id"],
           categories: allCheckedStudy,
+          status: true,
         }
       );
-      console.log(data._id);
-      debugger 
+      console.log(data);
+     // debugger 
       localStorage.setItem("teacher", JSON.stringify(data));
-      navigation("/page_teacher");
+      navigation("/account_teacher");
    
     } catch (err) {
       if (err.response) {

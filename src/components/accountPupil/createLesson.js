@@ -96,27 +96,11 @@ function CreateLesson(props) {
       dispatch(setAllTeacher(res.data.getAllTeachers));
       // Set the filterTeacher state here
       setFilterTeacher(res.data.getAllTeachers);
-      console.log(filterTeacher+"filter");
+      console.log(filterTeacher + "filter");
     } catch (error) {
       console.log(error);
     }
   };
-
-  //ייבוא רשימת כל המשתמשים מהמסד נתונים
-
-  // const allUsers = async () => {
-  //   try {
-  //     let res = await axios.get(`http://localhost:8000/user/getAllUsers`);
-  //     console.log(res.data);
-  //     dispatch(setAllUsers(res.data.getAllUsers));
-  //     setUser(res.data.getAllUsers)
-  //     // Set the filterTeacher state here
-  //     //setFilterTeacher(res.data.getAllTeachers);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  // };
 
   //זימון כתובת API לרשימת ערים בישראל
   const doApi = async () => {
@@ -127,7 +111,7 @@ function CreateLesson(props) {
   };
 
   function searchTeachers() {
-    debugger;
+    // debugger;
     const filteredTeachers = teachers.filter((teacher) => {
       return (
         teacher.city === selectedCity && teacher.categories.includes(selected)
@@ -139,8 +123,6 @@ function CreateLesson(props) {
 
   return (
     <>
-      {/* <h3>מיד נמצא לך את המורה הכי טוב!</h3> */}
-      {/* <h4>בחר תחום לימוד מהרשימה הבאה:</h4> */}
       <div className="container">
         <div className="d-flex bd-highlight">
           <div className="p-2 bd-highlight">
@@ -210,16 +192,15 @@ function CreateLesson(props) {
                       <Collapse in={isOpen}>
                         <div>
                           <p>
-                            <strong>תאריך לידה:</strong> {item.dateBirth}
+                            <strong>גיל:</strong> {2024 - item.dateBirth}
                           </p>
-
                           <p>
                             <strong>סטטוס:</strong>{" "}
-                            {item.status ? "פעיל" : "לא פעיל"}
+                            {item.status ? "פעיל" : "פעיל"}
                           </p>
 
                           <p>
-                            <strong>מקומות לימוד:</strong>
+                            <strong>מקום הלימוד:</strong>
                             <ListGroup>
                               {item.lessonPlace.map((place, index) => (
                                 <ListGroup.Item key={index}>
@@ -229,7 +210,7 @@ function CreateLesson(props) {
                             </ListGroup>
                           </p>
                           <p>
-                            <strong>קטגוריות:</strong>
+                            <strong>נושאי לימוד:</strong>
                             <ListGroup>
                               {item.categories.map((category, index) => (
                                 <ListGroup.Item key={index}>
@@ -242,11 +223,9 @@ function CreateLesson(props) {
                         </div>
                       </Collapse>
 
-                      <Modal show={showModal} onHide={handleModalClose}>
+                      <Modal show={showModal} onHide={handleModalClose} style={{direction:"rtl"}}>
                         <Modal.Header closeButton>
-                          <Modal.Title>
-                            המורה:{item.userName} עיר:{item.city}
-                          </Modal.Title>
+                          <Modal.Title>פנייה חדשה </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                           <Form>
@@ -281,21 +260,6 @@ function CreateLesson(props) {
                 </React.Fragment>
               );
             })}
-
-            {/* { filterTeacher.map((item) => (
-              <React.Fragment key={item.city}>
-              <div className="card">
-                <h5 className="card-header">{foundUser ? foundUser.userName : "User not found"}</h5>
-                <div className="card-body">
-                  <h5 className="card-title">{item.city}</h5>
-                  <p className="card-text">{item.aboutMe}</p>
-                  <a href="#!" className="btn btn-primary">
-                    למידע נוסף
-                  </a>
-                </div>
-                </div>
-              </React.Fragment>
-            ))} */}
           </div>
         ) : null}
       </div>

@@ -15,7 +15,7 @@ function Login(props) {
   const [password, setpassword] = useState("");
 
   async function insertToAccount(e) {
-    debugger
+    //debugger
     e.preventDefault()
     console.log("נכנס לפונקציה");
     try{

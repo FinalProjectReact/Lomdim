@@ -5,6 +5,7 @@ import LessonTable from "./lessonTeble";
 import { Tab, Tabs } from "react-bootstrap";
 import axios from "axios";
 import PageTeacher from "./pageTeacher";
+import { setDate } from "date-fns";
 
 function mapStateToProps(state) {
   return {
@@ -14,6 +15,7 @@ function mapStateToProps(state) {
 }
 
 function AccountTeacher(props) {
+  const [flag, setFlag] = useState(false);
   const navigation = useNavigate();
   const currentUser = useSelector((state) => state);
   //console.log(("currentUser", currentUser));
@@ -33,7 +35,7 @@ function AccountTeacher(props) {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            debugger;
+            //debugger;
             const { data } = await axios.post(
                 `http://localhost:8000/teacherData/findDataById`, {
                     userId: user._id,
@@ -43,6 +45,7 @@ function AccountTeacher(props) {
             console.log(data);
             if (data) {
                 localStorage.setItem("teacherData", JSON.stringify(data));
+                setFlag(true)
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -95,8 +98,8 @@ function AccountTeacher(props) {
         <br />
         <Tabs activeKey={tabKey} onSelect={(e) => initTabKey(e)}>
           <Tab eventKey="one" title="העמוד שלי">
-            <PageTeacher />
-          </Tab>
+{       flag &&     <PageTeacher />
+}          </Tab>
           <Tab eventKey="two" title="הפניות שלי">
             {/* <LessonTable/>  */}
           </Tab>

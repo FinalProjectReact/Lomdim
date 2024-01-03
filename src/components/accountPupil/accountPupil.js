@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import "./accountPupil.css";
 import CreateLesson from "./createLesson";
@@ -22,9 +22,14 @@ function AccountPupil(props) {
   // const [page, setPage] = useState();
   const { categories, currentUser } = props;
   const navigation = useNavigate();
+  const [user, setUser] = useState();
 
   //get current user
-  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    setUser( JSON.parse(localStorage.getItem("user")));
+   
+  }, [])
+  
   //logout
   const handleLogout = ()=>{
     localStorage.removeItem("loggedin")
@@ -41,25 +46,13 @@ function AccountPupil(props) {
         console.error('שגיאה בבצע בקשת DELETE:', error);
       });
   }
-    // debugger;
-    // try {
-    //   console.log(currentUser)
-    //   let res = await axios.delete(`http://localhost:8000/user/deleteUserById/${user.id}`);
-    //   console.log(res.data);
-    //   // dispatch(setAllUsers(res.data.getAllUsers));
-    //   // Set the filterTeacher state here
-    //   //setFilterTeacher(res.data.getAllTeachers);
-    // } catch (error) {
-    //   console.log(error);
-    // }  }
 
-  // function createLesson(){
-  //     setIsChecked(true);
-  // }
+
   const [tabKey, initTabKey] = useState("one");
+  
   return (
     <>
-      <div className="wrapper-pupil">
+     { user && <div className="wrapper-pupil">
         <br />
         <div className="row justify-content-between">
           <div className="col">
@@ -87,10 +80,10 @@ function AccountPupil(props) {
         <br />
         <Tabs activeKey={tabKey} onSelect={(e) => initTabKey(e)}>
           <Tab eventKey="one" title="חפש מורה">
-            <CreateLesson categories={categories} />
-          </Tab>
+          <CreateLesson categories={categories} />
+         </Tab>
           <Tab eventKey="two" title="הפניות שלי">
-            <p><LessonHistory/></p>  
+           <p><LessonHistory/></p>  
 
           </Tab>
           <Tab eventKey="three" title="מחיקת חשבון" >
@@ -99,7 +92,7 @@ function AccountPupil(props) {
             <button className="btn btn-primary btn-rounded" type="button" onClick={deleteFromAccount} value="מחק את חשבוני"></button>
           </Tab>
         </Tabs>
-      </div>
+      </div>}
       <br/>
     </>
   );

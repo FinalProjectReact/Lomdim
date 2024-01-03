@@ -8,15 +8,11 @@ export default function Home() {
       <img id="imgHome" alt="imgHome" src={imgHome} />
 
       <div className="searchTech">
-        {/* <form>
-          <div className="findTechTxt">מצא מורה:</div>
-          <div className="inputSearch">
-            <input type="text" placeholder="מקצוע" />
-            <input type="text" placeholder="יישוב" />
-            <button type="submit" className="submit"> חיפוש </button>
-            <br />
-          </div>
-        </form> */}
+        <div className="display-5">
+          באתר שלנו תוכלו למצוא את המורה הפרטי שלך
+        </div>
+        <br />
+        <h6>👆הכנסו/הרשמו עכשיו👆</h6>
       </div>
     </>
   );
